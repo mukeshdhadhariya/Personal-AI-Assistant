@@ -63,7 +63,7 @@ const closeVsCode=function(){
 export const closeapp = async (message) => {
     const lowerMessage = message.toLowerCase().trim();
   
-    const match = lowerMessage.match(/hi neha[,.]?\s*close\s+([\w\s.]+)[.]?$/i);
+    const match = lowerMessage.match(/ok neha[,.]?\s*close\s+([\w\s.]+)[.]?$/i);
   
     if (match) {
       const app = match[1].toLowerCase().trim().replace(/\.$/, '');

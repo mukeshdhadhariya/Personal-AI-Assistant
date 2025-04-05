@@ -23,7 +23,7 @@ export const WhatsApp = (message) => {
   const lowerMessage = message.toLowerCase().trim();
 
 
-  const match = lowerMessage.match(/hi neha send message to (\w+) that (.+)/);
+  const match = lowerMessage.match(/ok neha send message to (\w+) that (.+)/);
 
   if (match) {
 

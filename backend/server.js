@@ -19,6 +19,7 @@ import { openApp } from "./utils/openApp.js";
 import {  WhatsApp } from "./utils/whatsapp.js"
 
 import { closeapp } from "./utils/closewhatsapp.js";
+import { Playsong } from "./utils/openonyoutube.js";
 
 dotenv.config();
 const app = express();
@@ -33,7 +34,7 @@ app.use(cors({ origin: process.env.CORS_URL, credentials: true }));
 app.use(express.json());
 
 const sanitizeResponse = (text) => {
-  return text.replace(/[./\~`|}{\]&##%%^*^(&!@#)(_&+?<>]/g, "").replace(/[\uD800-\uDFFF]/g, ""); // Remove special characters & emojis
+  return text.replace(/[./\~`|}{\]&##%%^*^(&!@#)(_&+?<>]/g, "").replace(/[\uD800-\uDFFF]/g, "");
 };
 
 
@@ -56,6 +57,9 @@ app.post("/chat", async (req, res) => {
 
   const act1 = await closeapp(message);
   if (act1) replyText = act1;
+
+  const act2=await Playsong(message);
+  if(act2) replyText=act2;
 
   if (replyText) {
     replyText = sanitizeResponse(replyText); // Just in case

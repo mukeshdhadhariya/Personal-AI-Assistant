@@ -124,7 +124,7 @@ export default function ChatApp() {
         className="flex-1 overflow-y-auto p-2 sm:p-4 mt-2 bg-gray-800 rounded-xl shadow-lg mx-2 sm:mx-8"
         style={{
           backgroundImage: "url('https://wallpaperaccess.com/full/1850841.jpg')",
-          backgroundSize: "500px",
+          backgroundSize: "400px",
           backgroundPosition: "top center",
           opacity: "0.8",
           backgroundRepeat: "no-repeat",

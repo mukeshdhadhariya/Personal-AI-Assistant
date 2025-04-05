@@ -19,9 +19,9 @@ export const openApp = (message) => {
   const lowerMessage = message.toLowerCase().trim();
 
   const triggerPhrases = [
-    "hello neha open ", "hello neha, open ","hi neha, play my song ",
-    "baby open ","baby, open ","hi baby open ",
-    "hi baby, open ","hi neha open ", "hi neha, open ","play my song ",
+    "ok neha open ","ok neha play ",
+    "ok baby open ","baby, open ","ok baby play  ",
+    
   ];
 
   let appName = null;
