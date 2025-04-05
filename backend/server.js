@@ -45,21 +45,52 @@ app.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    const action = openApp(message);
-  
-    if (action) return res.json({ reply: action });
 
-    const act= WhatsApp(message);
+  let replyText = null;
 
-    if(act){
-      return res.json({ reply: act });
+  const action = openApp(message);
+  if (action) replyText = action;
+
+  const act = WhatsApp(message);
+  if (act) replyText = act;
+
+  const act1 = await closeapp(message);
+  if (act1) replyText = act1;
+
+  if (replyText) {
+    replyText = sanitizeResponse(replyText); // Just in case
+    const uniqueFileName = `speech_${Date.now()}.mp3`;
+    const filePath = `./public/${uniqueFileName}`;
+
+    const directory = "./public";
+    fs.readdir(directory, (err, files) => {
+      if (!err) {
+        files.forEach((file) => {
+          if (file.startsWith("speech_")) {
+            fs.unlink(`${directory}/${file}`, (err) => {
+              if (err) console.error("Error deleting old file:", err);
+            });
+          }
+        });
+      }
+    });
+
+  const tts = new gtts(replyText, "hi");
+  tts.save(filePath, (err) => {
+    if (err) {
+      console.error("TTS Error:", err);
+      return res.status(500).json({ error: "TTS generation failed" });
     }
 
-    const act1=await closeapp(message)
+    return res.json({
+      reply: replyText,
+      audio: `http://localhost:5000/${uniqueFileName}`,
+    });
+  });
 
-    if(act1){
-      return res.json({ reply: act1 });
-    }
+  return; 
+}
+
 
 
       const embedding = await generateEmbedding(message);
@@ -110,7 +141,7 @@ app.post("/chat", async (req, res) => {
       throw new Error("Invalid API response format.");
     }
 
-    let replyText = sanitizeResponse(response.data.choices[0].message.content);
+    replyText = sanitizeResponse(response.data.choices[0].message.content);
 
 
     const chatEntry = new Chat({ mukeshdhadhariya: message, neha: replyText });
