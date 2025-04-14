@@ -1,4 +1,4 @@
-import { NodeChildProcessTransport } from "@modelcontextprotocol/sdk/client/node.js";
+import { NodeChildProcessTransport, McpClient } from '@modelcontextprotocol/sdk';
 
 let child = new NodeChildProcessTransport({
   command: "node",
@@ -6,4 +6,13 @@ let child = new NodeChildProcessTransport({
 });
 
 export const mcp = new McpClient({ transport: child });
-await mcp.connect();
+
+(async () => {
+  try {
+    await mcp.connect();
+    console.log("MCP Client connected successfully");
+  } catch (err) {
+    console.error("Failed to connect MCP Client:", err);
+    process.exit(1);
+  }
+})();

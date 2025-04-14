@@ -20,7 +20,7 @@ import {  WhatsApp } from "./utils/whatsapp.js"
 
 import { closeapp } from "./utils/closewhatsapp.js";
 import { Playsong } from "./utils/openonyoutube.js";
-import { mcp } from "./mcpMemoryClient.js";
+// import { mcp } from "./mcpMemoryClient.js";
 
 dotenv.config();
 const app = express();
@@ -47,68 +47,68 @@ app.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    const rememberRegex = /(remember|i want you to remember|my (birthday|mother|father|brother|sister|grandpa|grandma|mother-in-law|father-in-law|uncle|aunt|name|age|fav|favorite|best friend) is)/i;
+    // const rememberRegex = /(remember|i want you to remember|my (birthday|mother|father|brother|sister|grandpa|grandma|mother-in-law|father-in-law|uncle|aunt|name|age|fav|favorite|best friend) is)/i;
 
-    const recallRegex = /(what is|do you remember|tell me about|can you recall|what's)( my)? (birthday|mother|father|brother|sister|grandpa|grandma|mother-in-law|father-in-law|uncle|aunt|name|age|favorite|best friend)/i;
+    // const recallRegex = /(what is|do you remember|tell me about|can you recall|what's)( my)? (birthday|mother|father|brother|sister|grandpa|grandma|mother-in-law|father-in-law|uncle|aunt|name|age|favorite|best friend)/i;
 
     let replyText = null;
 
-    if (rememberRegex.test(message)) {
-      const extractKeyValue = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          model: "gpt-3.5-turbo",
-          messages: [
-            {
-              role: "system",
-              content:
-                "Extract the key and value from this sentence. Return only JSON like: {\"key\": \"birthday\", \"value\": \"21 December\"}",
-            },
-            { role: "user", content: message },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // if (rememberRegex.test(message)) {
+    //   const extractKeyValue = await axios.post(
+    //     "https://api.openai.com/v1/chat/completions",
+    //     {
+    //       model: "gpt-3.5-turbo",
+    //       messages: [
+    //         {
+    //           role: "system",
+    //           content:
+    //             "Extract the key and value from this sentence. Return only JSON like: {\"key\": \"birthday\", \"value\": \"21 December\"}",
+    //         },
+    //         { role: "user", content: message },
+    //       ],
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
     
-      const { key, value } = JSON.parse(
-        extractKeyValue.data.choices[0].message.content
-      );
+    //   const { key, value } = JSON.parse(
+    //     extractKeyValue.data.choices[0].message.content
+    //   );
     
-      replyText = await mcp.callTool("rememberMe", { key, value });
+    //   replyText = await mcp.callTool("rememberMe", { key, value });
     
-    }
+    // }
 
-    if (recallRegex.test(message)) {
-      const extractKey = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          model: "gpt-3.5-turbo",
-          messages: [
-            {
-              role: "system",
-              content:
-                "Extract only the memory key being asked about. Return only JSON like: {\"key\": \"birthday\"}",
-            },
-            { role: "user", content: message },
-          ],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // if (recallRegex.test(message)) {
+    //   const extractKey = await axios.post(
+    //     "https://api.openai.com/v1/chat/completions",
+    //     {
+    //       model: "gpt-3.5-turbo",
+    //       messages: [
+    //         {
+    //           role: "system",
+    //           content:
+    //             "Extract only the memory key being asked about. Return only JSON like: {\"key\": \"birthday\"}",
+    //         },
+    //         { role: "user", content: message },
+    //       ],
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
     
-      const { key } = JSON.parse(extractKey.data.choices[0].message.content);
+    //   const { key } = JSON.parse(extractKey.data.choices[0].message.content);
     
-      replyText = await mcp.callTool("recallMemory", { key });
-    }
+    //   replyText = await mcp.callTool("recallMemory", { key });
+    // }
 
 
   const action = openApp(message);
@@ -258,3 +258,4 @@ app.post("/chat", async (req, res) => {
 app.use(express.static("public")); 
 
 app.listen(process.env.PORT || 5000, () => console.log(`Server running on http://localhost:${process.env.PORT || 5000}`));
+
