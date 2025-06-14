@@ -34,9 +34,19 @@ Dbconnect().then(()=>{
 app.use(cors({ origin: process.env.CORS_URL, credentials: true }));
 app.use(express.json());
 
+// const sanitizeResponse = (text) => {
+//   return text.replace(/[./\~`|}{\]&##%%^*^(&!@#)(_&+?<>]/g, "").replace(/[\uD800-\uDFFF]/g, "");
+// };
+
 const sanitizeResponse = (text) => {
-  return text.replace(/[./\~`|}{\]&##%%^*^(&!@#)(_&+?<>]/g, "").replace(/[\uD800-\uDFFF]/g, "");
+  if (typeof text !== "string") {
+    return "";
+  }
+  return text
+    .replace(/[./\~`|}{\]&##%%^*^(&!@#)(_&+?<>]/g, "")
+    .replace(/[\uD800-\uDFFF]/g, "");
 };
+
 
 
 app.post("/chat", async (req, res) => {
@@ -114,8 +124,14 @@ app.post("/chat", async (req, res) => {
   const action = openApp(message);
   if (action) replyText = action;
 
-  const act = WhatsApp(message);
-  if (act) replyText = act;
+  let msg = message.toLowerCase().trim();
+  const match = msg.match(/ok neha send message to (\w+) that (.+)/);
+
+  if(match){
+    const act = WhatsApp(msg);
+    if (act) replyText=act;
+  }
+
 
   const act1 = await closeapp(message);
   if (act1) replyText = act1;
@@ -191,7 +207,7 @@ app.post("/chat", async (req, res) => {
           { role: "system", content: trainingContent },
           ...formattedPastMessages,
           { role: "user", content: message },
-          { role: "assistant", content: context },
+          // { role: "assistant", content: context },
         ],
       },
       {
