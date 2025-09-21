@@ -1,6 +1,6 @@
 # 🤖 Neha – AI Assistant
 
-Neha is an **AI-powered virtual assistant** built with **JavaScript** that simulates human-like conversations.  
+Neha is an **AI-powered virtual assistant** built with **JavaScript** and **Python** that simulates human-like conversations.  
 It supports memory, contextual responses, and continuous learning from user interactions.  
 
 ---
@@ -10,7 +10,7 @@ It supports memory, contextual responses, and continuous learning from user inte
 - 🧠 Conversation memory and context retention  
 - 😅 Emotional responses (realistic, sometimes toxic)  
 - 🔗 Executes sequential commands from backend to frontend  
-- 📺 Integrated with external APIs (YouTube search, etc.)  
+- 📺 Integrated with external APIs (YouTube search,WhatsApp etc.)  
 - 🔐 Secure and modular project structure  
 
 ---
@@ -47,6 +47,7 @@ It supports memory, contextual responses, and continuous learning from user inte
     "concurrently": "^9.1.2"
   }
 } -->
+
 
 
 
